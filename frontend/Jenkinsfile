@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = 'abkaur95/frontend'
+        DOCKER_CREDENTIALS_ID = 'dockerhub'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                dir('frontend') {
+                    sh 'mvn clean install -DskipTests'
+                }
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                dir('frontend') {
+                    script {
+                        docker.withRegistry('', DOCKER_CREDENTIALS_ID) {
+                            def app = docker.build("${DOCKER_IMAGE}:latest")
+                            app.push()
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

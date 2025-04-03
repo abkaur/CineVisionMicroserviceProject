@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'your-dockerhub-username/cinevision-movie-service'
+        DOCKER_IMAGE = 'abkaur95/cinevision-movie-service'
         DOCKER_CREDENTIALS_ID = 'dockerhub'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'git-hub', url: 'https://github.com/your-github-username/CineVisionMicroserviceProject.git'
+                git credentialsId: 'git-hub', url: 'https://github.com/abkaur/CineVisionMicroserviceProject.git'
             }
         }
 

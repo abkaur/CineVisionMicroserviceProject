@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "abkaur95/cinevision-movie-service"
+        DOCKER_CREDENTIALS_ID = "dockerhub"
+    }
+
+    stages {
+        stage('Clone') {
+            steps {
+                git credentialsId: 'git-hub', url: 'https://github.com/abkaur/CineVisionMicroserviceProject.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir('movie-service') {
+                    sh 'mvn clean install -DskipTests'
+                }
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                dir('movie-service') {
+                    script {
+                        docker.withRegistry('', DOCKER_CREDENTIALS_ID) {
+                            def app = docker.build("${DOCKER_IMAGE}:latest")
+                            app.push()
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

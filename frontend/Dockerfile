@@ -1,12 +1,15 @@
-FROM openjdk:17-jdk-slim
+# Build stage
+FROM node:18 as build
 
 WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build
 
-# Copy the built JAR file into the container
-COPY ./target/*.jar frontend.jar
+# Production stage
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Expose port (adjust if needed)
-EXPOSE 3000
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 
-# Command to run
-ENTRYPOINT ["java", "-jar", "frontend.jar"]

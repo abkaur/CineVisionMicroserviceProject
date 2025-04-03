@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built jar file into the container
-COPY target/movie-service-0.0.1-SNAPSHOT.jar movie-service.jar
+COPY ./target/*.jar movie-service.jar
 
 # Make port 8082 available to the world outside this container
 EXPOSE 8082

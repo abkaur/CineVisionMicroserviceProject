@@ -9,4 +9,4 @@ COPY ./target/*.jar email-service.jar
 EXPOSE 8083
 
 # Command to run
-ENTRYPOINT ["java", "-jar", "user-service.jar"]
+ENTRYPOINT ["java", "-jar", "email-service.jar"]

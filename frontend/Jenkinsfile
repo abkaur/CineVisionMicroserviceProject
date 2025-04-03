@@ -10,7 +10,8 @@ pipeline {
         stage('Build') {
             steps {
                 dir('frontend') {
-                    sh 'mvn clean install -DskipTests'
+                    sh 'npm install'
+                    sh 'npm run build'
                 }
             }
         }
@@ -29,3 +30,4 @@ pipeline {
         }
     }
 }
+
